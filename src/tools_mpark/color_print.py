@@ -10,9 +10,16 @@ class bcolors:
     UNDERLINE = '\033[4m'
 
 
-def printc(*args, name='ENDC') -> None:
-    print(getattr(bcolors, name) + str(args[0]), *args[1:], bcolors.ENDC)
+def printc(*args, name: str = 'ENDC', **kwargs) -> None:
+    '''HEADER, OKBLUE, OKCYAN, OKGREEN, WARNING, FAIL, ENDC, BOLD, UNDERLINE'''
+    if len(args) == 1:
+        print(getattr(bcolors, name.upper()) + str(args[0]) + bcolors.ENDC, **kwargs)
+    else:
+        print(getattr(bcolors, name.upper()) + str(args[0]), *args[1:-1], args[-1] + bcolors.ENDC, **kwargs)
 
 
 if __name__ == '__main__':
-    printc('Hello', 'world', name='HEADER')
+    # get all attributes of bcolors
+    for attr in dir(bcolors):
+        if attr.isupper():
+            printc(attr, name=attr, end=' ')
